@@ -1,8 +1,13 @@
-﻿namespace Snake_SB2020.Models
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System.ComponentModel.DataAnnotations;
+
+namespace Snake_SB2020.Models
 {
     public class SnakeDirection
     {
-        public string Direction { get; set; }
+        [EnumDataType(typeof(EnumDirection))]
+        public EnumDirection Direction { get; set; }
     }
 
     public static class SnakeDirectionExtension
@@ -12,9 +17,9 @@
         /// </summary>
         public static bool IsDirectionOk(this SnakeDirection dir)
         {
-            string dirLower = dir.Direction.ToLower();
-            if (dirLower == "left" || dirLower == "right" || 
-                dirLower == "top" || dirLower == "bottom")
+            EnumDirection enumVal = dir.Direction;
+            if (enumVal == EnumDirection.Left || enumVal == EnumDirection.Right ||
+                enumVal == EnumDirection.Top || enumVal == EnumDirection.Bottom)
                 return true;
 
             return false;
@@ -49,11 +54,11 @@
         /// </summary>
         public static int GetDirectionDX(this SnakeDirection dir)
         {
-            switch (dir.Direction.ToLower())
+            switch (dir.Direction)
             {
-                case "left":
+                case EnumDirection.Left:
                     return -1;
-                case "right":
+                case EnumDirection.Right:
                     return 1;
                 default:
                     return 0;
@@ -65,15 +70,28 @@
         /// </summary>
         public static int GetDirectionDY(this SnakeDirection dir)
         {
-            switch (dir.Direction.ToLower())
+            switch (dir.Direction)
             {
-                case "top":
+                case EnumDirection.Top:
                     return -1;
-                case "bottom":
+                case EnumDirection.Bottom:
                     return 1;
                 default:
                     return 0;
             }
         }
+    }
+    
+
+    /// <summary>
+    /// Left, Right, Top, Bottom
+    /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum EnumDirection
+    {
+        Left,
+        Right,
+        Top,
+        Bottom
     }
 }
