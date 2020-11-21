@@ -54,6 +54,7 @@ namespace Snake
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
+                c.RoutePrefix = "api";
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
