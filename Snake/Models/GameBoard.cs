@@ -5,15 +5,15 @@ namespace Snake_SB2020.Models
 {
     public class GameBoard
     {
-        public int turnNumber = 0;
-        public int timeUntilNextTurnMiliseconds;
+        public int turnNumber { get; private set; } = 0;
+        public int timeUntilNextTurnMiliseconds { get; private set; }
         private TimerManager _timerManager;
 
-        public Size gameBoardSize;
+        public Size gameBoardSize { get; private set; }
 
         private SnakeDirection _snakeHeadDirection;
-        public List<Coordinate> snake;
-        public List<Coordinate> food;
+        public List<Coordinate> snake { get; private set; }
+        public List<Coordinate> food { get; private set; }
 
         private Random _r = new Random();
         
@@ -57,7 +57,7 @@ namespace Snake_SB2020.Models
             food.Clear();
 
             turnNumber = 0;
-            _snakeHeadDirection = new SnakeDirection() { Direction = "Top" };
+            _snakeHeadDirection = new SnakeDirection() { Direction = EnumDirection.Top };
 
             int centerX = gameBoardSize.Width / 2;
             int centerY = gameBoardSize.Height / 2;
