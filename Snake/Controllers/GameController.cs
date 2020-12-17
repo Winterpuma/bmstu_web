@@ -17,7 +17,7 @@ namespace Snake_SB2020.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IGameBoard))]
         public ActionResult GetGameboard()
         {
-            IGameBoard gameBoard = GameManager.GetGameBoard();
+            IGameBoard gameBoard = GameManager.Instance.GetGameBoard();
             return Ok(gameBoard);
         }
 
@@ -36,7 +36,7 @@ namespace Snake_SB2020.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult PatchDirection([FromBody] SnakeDirection newSnakeDirection)
         {
-            IGameBoard gameBoard = GameManager.GetGameBoard();
+            IGameBoard gameBoard = GameManager.Instance.GetGameBoard();
             int resCode = gameBoard.ChangeSnakeDir(newSnakeDirection);
 
             if (resCode != 0)

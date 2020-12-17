@@ -1,9 +1,12 @@
 ﻿namespace Snake_SB2020.Models
 {
-    public static class GameManager
+    public class GameManager
     {
-        private static object _lock = new object();
-        private static GameBoard _gameBoard;
+        public static GameManager Instance { get; } = new GameManager();
+        private GameManager() { }
+        
+        private object _lock = new object();
+        private GameBoard _gameBoard;
         
         // Дефолтные параметры игры
         private static readonly Size _defaultBoardSize = new Size(20, 20);
@@ -14,7 +17,7 @@
         /// </summary>
         /// <param name="boardSize">Размер поля</param>
         /// <param name="turnTimeInMilliseconds">Время одного хода в миллисекундах</param>
-        public static IGameBoard CreateNewGameBoard(Size boardSize, int turnTimeInMilliseconds)
+        public IGameBoard CreateNewGameBoard(Size boardSize, int turnTimeInMilliseconds)
         {
             _gameBoard = new GameBoard(boardSize, turnTimeInMilliseconds);
 
@@ -24,7 +27,7 @@
         /// <summary>
         /// Возвращает текущую игру или создает новую, если ее не существует
         /// </summary>
-        public static IGameBoard GetGameBoard()
+        public IGameBoard GetGameBoard()
         {
             if (_gameBoard == null)
                 lock(_lock)
@@ -39,7 +42,7 @@
         /// Создает новую игру без автоматического смены хода по таймеру
         /// </summary>
         /// <param name="boardSize">Размер игрового поля</param>
-        public static IGameBoard CreateGameBoardWithNoTimer(Size boardSize)
+        public IGameBoard CreateGameBoardWithNoTimer(Size boardSize)
         {
             _gameBoard = new GameBoard(boardSize);
 
