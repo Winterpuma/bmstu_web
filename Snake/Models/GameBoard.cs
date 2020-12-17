@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace Snake_SB2020.Models
 {
-    public class GameBoard
+    class GameBoard : IGameBoard
     {
-        public int turnNumber { get; private set; } = 0;
-        public int timeUntilNextTurnMiliseconds { get; private set; }
+        public int TurnNumber { get; private set; } = 0;
+        public int TimeUntilNextTurnMiliseconds { get; private set; }
         private TimerManager _timerManager;
 
-        public Size gameBoardSize { get; private set; }
+        public Size GameBoardSize { get; private set; }
 
         private SnakeDirection _snakeHeadDirection;
-        public List<Coordinate> snake { get; private set; }
-        public List<Coordinate> food { get; private set; }
+        public List<Coordinate> Snake { get; private set; }
+        public List<Coordinate> Food { get; private set; }
 
         private Random _r = new Random();
         
@@ -24,10 +24,10 @@ namespace Snake_SB2020.Models
         /// <param name="turnTimeInMilliseconds"></param>
         public GameBoard(Size gameBoardSize, int turnTimeInMilliseconds)
         {
-            snake = new List<Coordinate>();
-            food = new List<Coordinate>();
+            Snake = new List<Coordinate>();
+            Food = new List<Coordinate>();
 
-            this.gameBoardSize = gameBoardSize;
+            this.GameBoardSize = gameBoardSize;
             _timerManager = new TimerManager(turnTimeInMilliseconds, UpdateGameBoard);
 
             StartGame();
@@ -39,10 +39,10 @@ namespace Snake_SB2020.Models
         /// <param name="gameBoardSize">Размер поля</param>
         public GameBoard(Size gameBoardSize)
         {
-            snake = new List<Coordinate>();
-            food = new List<Coordinate>();
+            Snake = new List<Coordinate>();
+            Food = new List<Coordinate>();
 
-            this.gameBoardSize = gameBoardSize;
+            this.GameBoardSize = gameBoardSize;
             _timerManager = new TimerManager();
 
             StartGame();
@@ -53,14 +53,14 @@ namespace Snake_SB2020.Models
         /// </summary>
         private void StartGame()
         {
-            snake.Clear();
-            food.Clear();
+            Snake.Clear();
+            Food.Clear();
 
-            turnNumber = 0;
+            TurnNumber = 0;
             _snakeHeadDirection = new SnakeDirection() { Direction = EnumDirection.Top };
 
-            int centerX = gameBoardSize.Width / 2;
-            int centerY = gameBoardSize.Height / 2;
+            int centerX = GameBoardSize.Width / 2;
+            int centerY = GameBoardSize.Height / 2;
 
             SpawnSnakeBodyCell(centerX, centerY);
             SpawnSnakeBodyCell(centerX, centerY + 1);
@@ -89,30 +89,30 @@ namespace Snake_SB2020.Models
         /// </summary>
         private void UpdateGameBoard(object o)
         {
-            turnNumber++;
-            int nextHeadX = snake[0].X + _snakeHeadDirection.GetDirectionDX();
-            int nextHeadY = snake[0].Y + _snakeHeadDirection.GetDirectionDY();
+            TurnNumber++;
+            int nextHeadX = Snake[0].X + _snakeHeadDirection.GetDirectionDX();
+            int nextHeadY = Snake[0].Y + _snakeHeadDirection.GetDirectionDY();
 
             // Змейка врезалась в стенку
-            if (nextHeadX == -1 || nextHeadX == gameBoardSize.Width ||
-                nextHeadY == -1 || nextHeadY == gameBoardSize.Height)
+            if (nextHeadX == -1 || nextHeadX == GameBoardSize.Width ||
+                nextHeadY == -1 || nextHeadY == GameBoardSize.Height)
             {
                 StartGame();
                 _timerManager.StartTimer();
                 return;
             }
 
-            snake.Insert(0, new Coordinate(nextHeadX, nextHeadY)); // голова подвинулась
+            Snake.Insert(0, new Coordinate(nextHeadX, nextHeadY)); // голова подвинулась
 
-            int indexOfFood = IndexInCoords(food, nextHeadX, nextHeadY);
+            int indexOfFood = IndexInCoords(Food, nextHeadX, nextHeadY);
             if (indexOfFood != -1) // змейка съела еду
             {
-                food.RemoveAt(indexOfFood);
+                Food.RemoveAt(indexOfFood);
                 SpawnNewFood();
             }
             else // обычное перемещение змейки
             {
-                snake.RemoveAt(snake.Count - 1);
+                Snake.RemoveAt(Snake.Count - 1);
             }
 
             _timerManager.ResetStopwatch();
@@ -123,7 +123,7 @@ namespace Snake_SB2020.Models
         /// </summary>
         private void SpawnSnakeBodyCell(int x, int y)
         {
-            snake.Add(new Coordinate(x, y));
+            Snake.Add(new Coordinate(x, y));
         }
         
         /// <summary>
@@ -160,15 +160,15 @@ namespace Snake_SB2020.Models
 
             while (!gotFreeCoord)
             {
-                randomX = _r.Next(0, gameBoardSize.Width);
-                randomY = _r.Next(0, gameBoardSize.Height);
+                randomX = _r.Next(0, GameBoardSize.Width);
+                randomY = _r.Next(0, GameBoardSize.Height);
                 
-                if (IndexInCoords(snake, randomX, randomY) == -1 && // клетка не занята змейкой
-                    IndexInCoords(food, randomX, randomY) == -1) // клетка не занята едой
+                if (IndexInCoords(Snake, randomX, randomY) == -1 && // клетка не занята змейкой
+                    IndexInCoords(Food, randomX, randomY) == -1) // клетка не занята едой
                     gotFreeCoord = true;
             }
 
-            food.Add(new Coordinate(randomX, randomY));
+            Food.Add(new Coordinate(randomX, randomY));
         }
         
         /// <summary>
@@ -186,7 +186,7 @@ namespace Snake_SB2020.Models
         /// </summary>
         public void CountTimeUntilNextTurnMiliseconds()
         {
-            timeUntilNextTurnMiliseconds = _timerManager.CountTimeUntilNextTurnMiliseconds();
+            TimeUntilNextTurnMiliseconds = _timerManager.CountTimeUntilNextTurnMiliseconds();
         }
     }
 }

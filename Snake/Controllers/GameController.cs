@@ -11,13 +11,13 @@ namespace Snake_SB2020.Controllers
         /// Возвращает информацию о текущем состоянии игрового поля
         /// </summary>
         /// <returns>Текущее состояние игрового поля</returns>
-        /// <response code="200" cref="GameBoard">Состояние игрового поля</response>
+        /// <response code="200" cref="IGameBoard">Состояние игрового поля</response>
         [Route("api/gameboard")]
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GameBoard))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IGameBoard))]
         public ActionResult GetGameboard()
         {
-            GameBoard gameBoard = GameManager.GetGameBoard();
+            IGameBoard gameBoard = GameManager.GetGameBoard();
             return Ok(gameBoard);
         }
 
@@ -36,7 +36,7 @@ namespace Snake_SB2020.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult PatchDirection([FromBody] SnakeDirection newSnakeDirection)
         {
-            GameBoard gameBoard = GameManager.GetGameBoard();
+            IGameBoard gameBoard = GameManager.GetGameBoard();
             int resCode = gameBoard.ChangeSnakeDir(newSnakeDirection);
 
             if (resCode != 0)

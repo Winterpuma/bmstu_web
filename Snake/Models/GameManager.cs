@@ -14,7 +14,7 @@
         /// </summary>
         /// <param name="boardSize">Размер поля</param>
         /// <param name="turnTimeInMilliseconds">Время одного хода в миллисекундах</param>
-        public static GameBoard CreateNewGameBoard(Size boardSize, int turnTimeInMilliseconds)
+        public static IGameBoard CreateNewGameBoard(Size boardSize, int turnTimeInMilliseconds)
         {
             _gameBoard = new GameBoard(boardSize, turnTimeInMilliseconds);
 
@@ -24,12 +24,12 @@
         /// <summary>
         /// Возвращает текущую игру или создает новую, если ее не существует
         /// </summary>
-        public static GameBoard GetGameBoard()
+        public static IGameBoard GetGameBoard()
         {
             if (_gameBoard == null)
                 lock(_lock)
                     if (_gameBoard == null)
-                        _gameBoard = CreateNewGameBoard(_defaultBoardSize, _defaultTurnTimeInMilliseconds);
+                        _gameBoard = (GameBoard)CreateNewGameBoard(_defaultBoardSize, _defaultTurnTimeInMilliseconds);
 
             _gameBoard.CountTimeUntilNextTurnMiliseconds();
             return _gameBoard;
@@ -39,7 +39,7 @@
         /// Создает новую игру без автоматического смены хода по таймеру
         /// </summary>
         /// <param name="boardSize">Размер игрового поля</param>
-        public static GameBoard CreateGameBoardWithNoTimer(Size boardSize)
+        public static IGameBoard CreateGameBoardWithNoTimer(Size boardSize)
         {
             _gameBoard = new GameBoard(boardSize);
 
