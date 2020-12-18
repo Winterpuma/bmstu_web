@@ -30,7 +30,7 @@ namespace Snake_SB2020.Controllers
         /// <param name="newSnakeDirection">Новое направление движения змейки</param>
         /// <response code="200">Направление змейки было успешно изменено</response>
         /// <response code="400">Некорректно задано направление</response>   
-        [Route("api/direction")]
+        [Route("api/gameboard")]
         [HttpPatch]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
