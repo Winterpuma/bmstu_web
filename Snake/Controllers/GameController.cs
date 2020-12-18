@@ -8,16 +8,35 @@ namespace Snake_SB2020.Controllers
     public class GameController : ControllerBase
     {
         /// <summary>
-        /// Возвращает информацию о текущем состоянии игрового поля
+        /// Создает новое игровое поле
         /// </summary>
-        /// <returns>Текущее состояние игрового поля</returns>
-        /// <response code="200" cref="IGameBoard">Состояние игрового поля</response>
+        /// <returns>id созданного поля</returns>
+        /// <response code="200">Идентификатор созданной поля</response>
         [Route("api/gameboard")]
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IGameBoard))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         public ActionResult GetGameboard()
         {
-            IGameBoard gameBoard = GameManager.Instance.GetGameBoard();
+            int i = GameManager.Instance.CreateNewGameBoard(new Size(20, 20), 3000);
+            return Ok(i);
+        }
+
+        /// <summary>
+        /// Возвращает информацию о текущем состоянии игрового поля
+        /// </summary>
+        /// <param name="id">Идентификатор доски</param>
+        /// <returns>Текущее состояние игрового поля</returns>
+        /// <response code="200" cref="IGameBoard">Состояние игрового поля</response>
+        /// <response code="404">Не найдено соответствующее поле</response>
+        [Route("api/gameboard/{id}")]
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IGameBoard))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult GetGameboard([FromRoute]int id)
+        {
+            IGameBoard gameBoard = GameManager.Instance.GetGameBoard(id);
+            if (gameBoard == null)
+                return NotFound();
             return Ok(gameBoard);
         }
 
@@ -27,16 +46,22 @@ namespace Snake_SB2020.Controllers
         /// Поворот на 180 градусов вернет ошибку.
         /// Поворот в текущее направление допустим.
         /// </summary>
+        /// <param name="id">Идентификатор доски</param>
         /// <param name="newSnakeDirection">Новое направление движения змейки</param>
         /// <response code="200">Направление змейки было успешно изменено</response>
-        /// <response code="400">Некорректно задано направление</response>   
-        [Route("api/gameboard")]
+        /// <response code="400">Некорректно задано направление</response> 
+        /// <response code="404">Не найдено соответствующее поле</response>
+        [Route("api/gameboard/{id}")]
         [HttpPatch]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult PatchDirection([FromBody] SnakeDirection newSnakeDirection)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult PatchDirection([FromRoute]int id, [FromBody] SnakeDirection newSnakeDirection)
         {
-            IGameBoard gameBoard = GameManager.Instance.GetGameBoard();
+            IGameBoard gameBoard = GameManager.Instance.GetGameBoard(id);
+            if (gameBoard == null)
+                return NotFound();
+
             int resCode = gameBoard.ChangeSnakeDir(newSnakeDirection);
 
             if (resCode != 0)
