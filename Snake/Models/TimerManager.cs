@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 
-namespace Snake_SB2020.Models
+namespace Snake.Models
 {
     /// <summary>
     /// Отвечает за запуск функции по таймеру и 

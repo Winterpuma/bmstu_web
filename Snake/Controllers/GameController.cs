@@ -1,9 +1,9 @@
 ﻿using System;
-using Snake_SB2020.Models;
+using Snake.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 
-namespace Snake_SB2020.Controllers
+namespace Snake.Controllers
 {
     [ApiController]
     public class GameController : ControllerBase

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Snake_SB2020.Models
+namespace Snake.Models
 {
     public class Coordinate
     {

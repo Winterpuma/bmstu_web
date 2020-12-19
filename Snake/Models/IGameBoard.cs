@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Snake_SB2020.Models
+namespace Snake.Models
 {
     public interface IGameBoard
     {

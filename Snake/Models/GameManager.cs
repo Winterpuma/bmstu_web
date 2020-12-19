@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System;
 
-namespace Snake_SB2020.Models
+namespace Snake.Models
 {
     public class GameManager
     {
@@ -22,7 +22,7 @@ namespace Snake_SB2020.Models
         public Guid CreateNewGameBoard(Size boardSize, int turnTimeInMilliseconds)
         {
             GameBoard gameboard = new GameBoard(boardSize, turnTimeInMilliseconds);
-            Guid id = Guid.NewGuid();//.ToString("N");
+            Guid id = Guid.NewGuid();
             _gameBoards.TryAdd(id, gameboard);
             return id;
         }
@@ -46,7 +46,6 @@ namespace Snake_SB2020.Models
         public Guid CreateGameBoardWithNoTimer(Size boardSize)
         {
             GameBoard gameboard = new GameBoard(boardSize);
-            //string id = Guid.NewGuid().ToString("N");
             Guid id = Guid.NewGuid();
             _gameBoards.TryAdd(id, gameboard);
             return id;

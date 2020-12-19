@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 
-namespace Snake_SB2020.Models
+namespace Snake.Models
 {
     public class SnakeDirection
     {
