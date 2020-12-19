@@ -1,4 +1,5 @@
-﻿using Snake_SB2020.Models;
+﻿using System;
+using Snake_SB2020.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 
@@ -13,11 +14,11 @@ namespace Snake_SB2020.Controllers
         /// <returns>id созданного поля</returns>
         /// <response code="200">Идентификатор созданной поля</response>
         [Route("api/gameboard")]
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid))]
         public ActionResult GetGameboard()
         {
-            int i = GameManager.Instance.CreateNewGameBoard(new Size(20, 20), 3000);
+            Guid i = GameManager.Instance.CreateNewGameBoard(new Size(20, 20), 3000);
             return Ok(i);
         }
 
@@ -32,7 +33,7 @@ namespace Snake_SB2020.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IGameBoard))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult GetGameboard([FromRoute]int id)
+        public ActionResult GetGameboard([FromRoute]Guid id)
         {
             IGameBoard gameBoard = GameManager.Instance.GetGameBoard(id);
             if (gameBoard == null)
@@ -56,7 +57,7 @@ namespace Snake_SB2020.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult PatchDirection([FromRoute]int id, [FromBody] SnakeDirection newSnakeDirection)
+        public ActionResult PatchDirection([FromRoute]Guid id, [FromBody] SnakeDirection newSnakeDirection)
         {
             IGameBoard gameBoard = GameManager.Instance.GetGameBoard(id);
             if (gameBoard == null)
