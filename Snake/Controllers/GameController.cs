@@ -8,6 +8,13 @@ namespace Snake.Controllers
     [ApiController]
     public class GameController : ControllerBase
     {
+        private readonly IGameManager _gameManager;
+
+        public GameController(IGameManager gameManager)
+        {
+            _gameManager = gameManager;
+        }
+
         /// <summary>
         /// Создает новое игровое поле
         /// </summary>
@@ -18,7 +25,7 @@ namespace Snake.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid))]
         public ActionResult GetGameboard()
         {
-            Guid i = GameManager.Instance.CreateNewGameBoard(new Size(20, 20), 3000);
+            Guid i = _gameManager.CreateNewGameBoard(new Size(20, 20), 3000);
             return Ok(i);
         }
 
@@ -35,7 +42,7 @@ namespace Snake.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult GetGameboard([FromRoute]Guid id)
         {
-            IGameBoard gameBoard = GameManager.Instance.GetGameBoard(id);
+            IGameBoard gameBoard = _gameManager.GetGameBoard(id);
             if (gameBoard == null)
                 return NotFound();
             return Ok(gameBoard);
@@ -59,7 +66,7 @@ namespace Snake.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult PatchDirection([FromRoute]Guid id, [FromBody] SnakeDirection newSnakeDirection)
         {
-            IGameBoard gameBoard = GameManager.Instance.GetGameBoard(id);
+            IGameBoard gameBoard = _gameManager.GetGameBoard(id);
             if (gameBoard == null)
                 return NotFound();
 

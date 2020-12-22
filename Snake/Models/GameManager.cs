@@ -1,19 +1,12 @@
-﻿using System.Collections.Concurrent;
-using System;
+﻿using System;
+using System.Collections.Concurrent;
 
 namespace Snake.Models
 {
-    public class GameManager
+    public class GameManager : IGameManager
     {
-        public static GameManager Instance { get; } = new GameManager();
-        private GameManager() { _gameBoards = new ConcurrentDictionary<Guid, GameBoard>(); }
-        
-        private ConcurrentDictionary<Guid, GameBoard> _gameBoards;
-        
-        // Дефолтные параметры игры
-        private static readonly Size _defaultBoardSize = new Size(20, 20);
-        private static readonly int _defaultTurnTimeInMilliseconds = 3000;
-        
+        private ConcurrentDictionary<Guid, GameBoard> _gameBoards = new ConcurrentDictionary<Guid, GameBoard>();
+                
         /// <summary>
         /// Создает новую игру с заданными параметрами
         /// </summary>
@@ -23,7 +16,8 @@ namespace Snake.Models
         {
             GameBoard gameboard = new GameBoard(boardSize, turnTimeInMilliseconds);
             Guid id = Guid.NewGuid();
-            _gameBoards.TryAdd(id, gameboard);
+            while (!_gameBoards.TryAdd(id, gameboard))
+                id = Guid.NewGuid();
             return id;
         }
         
@@ -47,7 +41,8 @@ namespace Snake.Models
         {
             GameBoard gameboard = new GameBoard(boardSize);
             Guid id = Guid.NewGuid();
-            _gameBoards.TryAdd(id, gameboard);
+            while (!_gameBoards.TryAdd(id, gameboard))
+                id = Guid.NewGuid();
             return id;
         }
     }
