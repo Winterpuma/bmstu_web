@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "b0d697ef-ad1c-4798-b7d7-52e4feb307c5",
+		"name": "web_lab1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create gameboard",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44001/api/gameboard",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44001",
+					"path": [
+						"api",
+						"gameboard"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change dir",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"direction\": \"left\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44001/api/gameboard/d77a40fc-eace-426c-9536-a42af9f692b6",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44001",
+					"path": [
+						"api",
+						"gameboard",
+						"d77a40fc-eace-426c-9536-a42af9f692b6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get gameboard",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44001/api/gameboard/d77a40fc-eace-426c-9536-a42af9f692b6",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44001",
+					"path": [
+						"api",
+						"gameboard",
+						"d77a40fc-eace-426c-9536-a42af9f692b6"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
