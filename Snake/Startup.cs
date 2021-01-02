@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Snake.Models;
 
@@ -30,6 +24,7 @@ namespace Snake
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            // Связываем интерфейс с конкретной реализацией как синглтон
             services.AddSingleton<IGameManager, GameManager>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents

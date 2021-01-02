@@ -34,21 +34,6 @@ namespace Snake.Models
         }
         
         /// <summary>
-        /// Создает игру без автоматической смены хода по таймеру
-        /// </summary>
-        /// <param name="gameBoardSize">Размер поля</param>
-        public GameBoard(Size gameBoardSize)
-        {
-            Snake = new List<Coordinate>();
-            Food = new List<Coordinate>();
-
-            this.GameBoardSize = gameBoardSize;
-            _timerManager = new TimerManager();
-
-            StartGame();
-        }
-        
-        /// <summary>
         /// Инициализирует игру при старте
         /// </summary>
         private void StartGame()
@@ -68,20 +53,6 @@ namespace Snake.Models
             SpawnNewFood();
 
             _timerManager.StartTimer();
-        }
-        
-        /// <summary>
-        /// Принудительная смена хода.
-        /// Возможна только если не установлен ход по таймеру.
-        /// </summary>
-        /// <returns>0 - успех, -1 - ошибка</returns>
-        public int ForcedNextMove()
-        {
-            if (_timerManager.IsTimeoutType()) // установлен ход по таймеру
-                return -1;
-
-            UpdateGameBoard("");
-            return 0;
         }
         
         /// <summary>

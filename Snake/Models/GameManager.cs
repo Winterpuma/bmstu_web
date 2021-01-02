@@ -32,18 +32,5 @@ namespace Snake.Models
                 _gameBoard.CountTimeUntilNextTurnMiliseconds();
             return _gameBoard;
         }
-        
-        /// <summary>
-        /// Создает новую игру без автоматического смены хода по таймеру
-        /// </summary>
-        /// <param name="boardSize">Размер игрового поля</param>
-        public Guid CreateGameBoardWithNoTimer(Size boardSize)
-        {
-            GameBoard gameboard = new GameBoard(boardSize);
-            Guid id = Guid.NewGuid();
-            while (!_gameBoards.TryAdd(id, gameboard))
-                id = Guid.NewGuid();
-            return id;
-        }
     }
 }

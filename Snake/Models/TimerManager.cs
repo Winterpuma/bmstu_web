@@ -10,8 +10,6 @@ namespace Snake.Models
     /// </summary>
     public class TimerManager
     {
-        private bool _timeoutTypeManager = true;
-
         private TimeSpan _turnTime;
         private Timer _onUpdateTimer;        
         private Stopwatch _stopwatch;
@@ -29,61 +27,31 @@ namespace Snake.Models
         }
         
         /// <summary>
-        /// Менеджер для function, вызываемой из кода, а не по таймеру
-        /// </summary>
-        /// <param name="function"></param>
-        public TimerManager()
-        {
-            _timeoutTypeManager = false;
-        }
-        
-        /// <summary>
-        /// Возвращает true, если TimerManager установлен в режим работы по таймауту
-        /// </summary>
-        public bool IsTimeoutType()
-        {
-            return _timeoutTypeManager;
-        }
-        
-        /// <summary>
         /// Запуск таймера
         /// </summary>
         public void StartTimer()
         {
-            if (_timeoutTypeManager)
-            {
-                _stopwatch.Reset();
-                _stopwatch.Start();
-                _onUpdateTimer.Change(0, (int)_turnTime.TotalMilliseconds); // запуск периодичного function
-            }
+            _stopwatch.Reset();
+            _stopwatch.Start();
+            _onUpdateTimer.Change(0, (int)_turnTime.TotalMilliseconds); // запуск периодичного function
         }
-        
+
         /// <summary>
         /// Перезапуск часов
         /// </summary>
         public void ResetStopwatch()
         {
-            if (_timeoutTypeManager)
-            {
-                _stopwatch.Reset();
-                _stopwatch.Start();
-            }
+            _stopwatch.Reset();
+            _stopwatch.Start();
         }
-        
+
         /// <summary>
         /// Возвращает время до наступления следующего хода
         /// </summary>
         public int CountTimeUntilNextTurnMiliseconds()
         {
-            if (_timeoutTypeManager)
-            {
-                TimeSpan remainingTime = _turnTime.Subtract(_stopwatch.Elapsed);
-                return (int)remainingTime.TotalMilliseconds;
-            }
-            else
-            {
-                return -1;
-            }
+            TimeSpan remainingTime = _turnTime.Subtract(_stopwatch.Elapsed);
+            return (int)remainingTime.TotalMilliseconds;
         }
     }
 }
